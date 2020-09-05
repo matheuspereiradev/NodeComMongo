@@ -1,0 +1,28 @@
+{
+  "name": "projetonodemongo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.1.0",
+    "mongoose": "^5.10.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matheuspereiradev/NodeComMongo.git"
+  },
+  "author": "matheuspereiradev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matheuspereiradev/NodeComMongo/issues"
+  },
+  "homepage": "https://github.com/matheuspereiradev/NodeComMongo#readme"
+}
