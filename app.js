@@ -14,7 +14,7 @@ const flash = require('connect-flash')
 //configuraçoes
     //session
     aplicacao.use(session({
-        secret:"CHAVE¨2192EXTREMAMENTESECRETA(**&",
+        secret:"CHAveEXtreMMENte$EGUra&$&cretA",
         resave:true,
         saveUninitialized:true
     }))

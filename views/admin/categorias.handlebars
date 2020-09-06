@@ -1,3 +1,22 @@
 <h1>LISTA DE CATEGORIAS:</h1>
 <hr>
 <a href="/admin/categorias/cadastrar"><button class="btn btn-success">nova categoria</button></a>
+<br><br>
+<div class="list-group">
+  {{#each categorias}}  
+    <div class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{slug}}</h5>
+        </div>
+        <p class="mb-1">{{nome}}</p>
+        <a href="/admin/categorias/editar/{{_id}}"><button class="btn btn-success mt-2">editar</button></a>
+        <form method="POST" action="/admin/categorias/excluir">
+          <input type="hidden" name="id" value="{{_id}}">
+          <input type="submit" name="excluir" class="btn btn-danger mt-2" value="Excluir">
+        </form>
+    </div>  
+  {{else}}
+    <h4>Nenhuma categoria</h4>
+  {{/each}}
+
+  

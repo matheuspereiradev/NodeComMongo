@@ -1,3 +1,9 @@
+{{#each erros}}
+    <div class="alert alert-danger" role="alert">
+        {{texto}}
+    </div>
+{{/each}}
+
 <h3>Nova categoria:</h3>
 <form method="POST" action="/admin/categorias/nova">
     <label for="nome">Nome:</label>
