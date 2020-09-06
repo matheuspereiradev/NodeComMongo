@@ -4,12 +4,31 @@
     </div>
 {{/each}}
 
+{{#if categoria}}
+<h3>Editar categoria:</h3>
+{{else}}
 <h3>Nova categoria:</h3>
-<form method="POST" action="/admin/categorias/nova">
+{{/if}}
+
+<form method="POST" name="formulario" action="#">
+    <input type="hidden" name="id" value="{{#if categoria}}{{categoria._id}}{{/if}}">
     <label for="nome">Nome:</label>
-    <input type="text" id="nome" name="nome" placeholder="digite o nome" class="form-control">
+    <input type="text" id="nome" name="nome" placeholder="digite o nome" class="form-control" value="{{#if categoria}}{{categoria.nome}}{{/if}}">
     <label for="slug">Slug:</label>
-    <input type="text" id="slug" name="slug" placeholder="digite o slug" class="form-control">
+    <input type="text" id="slug" name="slug" placeholder="digite o slug" class="form-control" value="{{#if categoria}}{{categoria.slug}}{{/if}}">
     <br>
-    <input type="submit" id="enviar" name="enviar" value="Salvar" class="btn btn-success btn-lg btn-block">
+    <input type="submit" id="enviar" name="enviar" value="Salvar" class="btn btn-success btn-lg btn-block" onclick="verificaOperacao()">
 </form>
+<script type="text/javascript">
+    function verificaOperacao(){
+        let id = document.getElementsByName('id')[0].getAttribute('value')
+
+        if(id==""){
+            document.getElementsByName('formulario')[0].setAttribute('action','/admin/categorias/nova')
+            console.log('cad')
+        }else{
+            document.getElementsByName('formulario')[0].setAttribute('action','/admin/categorias/editar')
+            console.log('edt')
+        }
+    }
+</script>

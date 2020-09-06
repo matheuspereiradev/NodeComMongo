@@ -53,7 +53,7 @@ rotas.post('/categorias/nova',(req,res)=>{
 
 rotas.get('/categorias/editar/:id',(req,res)=>{
     modelCategoria.findOne({_id:req.params.id}).then((cat)=>{
-        res.render('admin/edtcategoria', {categoria:cat.toJSON()})
+        res.render('admin/addcategoria', {categoria:cat.toJSON()})
     }).catch((e)=>{
         req.flash('error_msg','Categoria nao encontrada'+e) 
         res.redirect('/admin')
@@ -62,7 +62,6 @@ rotas.get('/categorias/editar/:id',(req,res)=>{
 
 rotas.post('/categorias/editar',(req,res)=>{
 
-    console.log(req.body.nome)
     modelCategoria.findOne({_id:req.body.id}).then((cat)=>{
         cat.nome=req.body.nome,
         cat.slug=req.body.slug

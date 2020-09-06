@@ -49,12 +49,6 @@ const flash = require('connect-flash')
     aplicacao.use(express.static(path.join(__dirname,"public")))
 
 
-
-    /*aplicacao.use((req,res,next)=>{
-        console.log('middlewere')
-        next()
-    })*/
-
 //rotas
     aplicacao.use('/admin',admin)//todas as rotas desse grupo de rotas tem o seguinte prefixo
 
