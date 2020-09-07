@@ -7,9 +7,13 @@ const uriBanco = 'mongodb://localhost/dbblog';
 const aplicacao = express()
 const PORT = 3000
 const admin = require('./routes/admin')
+const post = require('./routes/postagem')
 const path = require('path')
 const session = require('express-session')
 const flash = require('connect-flash')
+require('./models/Postagem')
+const Postagem = mongoose.model('postagem')
+
 
 //configuraçoes
     //session
@@ -50,6 +54,14 @@ const flash = require('connect-flash')
 
 
 //rotas
+    aplicacao.get('/',(req,res)=>{
+        Postagem.find().populate('categoria').then((post)=>{
+            res.render('index',{postagens:post.map(post => post.toJSON())})
+        }).catch((e)=>{
+            
+        })
+    })
+    aplicacao.use('/postagem',post)
     aplicacao.use('/admin',admin)//todas as rotas desse grupo de rotas tem o seguinte prefixo
 
 //outros

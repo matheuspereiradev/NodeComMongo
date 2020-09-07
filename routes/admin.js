@@ -193,7 +193,7 @@ rotas.post('/postagens/editar',(req,res)=>{
 })
 
 rotas.get('/postagens/excluir/:id',(req,res)=>{
-    modelPostagem.findById(req.params.id).remove().then(()=>{
+    modelPostagem.deleteOne(req.params.id).then(()=>{
         req.flash('success_msg','Postagem excluida com sucesso')    
         res.redirect('/admin/postagens')
     }).catch((e)=>{
