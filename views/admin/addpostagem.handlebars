@@ -3,20 +3,27 @@
         {{texto}}
     </div>
 {{/each}}
-<h3>Nova postagem:</h3>
+{{#if postagem}}
+    <h3>Editar postagem:</h3>
+{{else}}
+    <h3>Nova postagem:</h3>
+{{/if}}
 
-<form method="POST" name="formulario" action="/admin/postagens/nova">
+<form method="POST" name="formulario" action="#">
+
+    <input type="hidden" value="{{#if postagem}}{{postagem._id}}{{/if}}" name="id">
+
     <label for="titulo">Titulo:</label>
-    <input type="text" id="titulo" name="titulo" placeholder="digite o titulo" class="form-control">
+    <input type="text" id="titulo" name="titulo" placeholder="digite o titulo" value="{{#if postagem}}{{postagem.titulo}}{{/if}}" class="form-control">
 
     <label for="slug">Slug:</label>
-    <input type="text" id="slug" name="slug" placeholder="digite o slug" class="form-control">
+    <input type="text" id="slug" name="slug" placeholder="digite o slug" class="form-control" value="{{#if postagem}}{{postagem.slug}}{{/if}}">
 
     <label for="descricao">Descrição:</label>
-    <input type="text" id="descricao" name="descricao" placeholder="digite a descrição" class="form-control">
+    <input type="text" id="descricao" name="descricao" placeholder="digite a descrição" class="form-control" value="{{#if postagem}}{{postagem.descricao}}{{/if}}">
 
     <label for="conteudo">Conteudo:</label>
-    <textarea class="form-control" id="conteudo" name="conteudo" rows="6"></textarea>
+    <textarea class="form-control" id="conteudo" name="conteudo" rows="6">{{#if postagem}}{{postagem.conteudo}}{{/if}}</textarea>
 
     <label for="categoria">Categoria:</label>
     <select class="form-control" name="categoria">
@@ -28,5 +35,16 @@
         {{/each}}    
     </select>
 
-    <input type="submit" id="enviar" name="enviar" value="Postar" class="btn btn-success btn-lg btn-block mt-4">
+    <input type="submit" id="enviar" name="enviar" value="Postar" class="btn btn-success btn-lg btn-block mt-4" onclick="verificaOperacao()">
 </form>
+<script type="text/javascript">
+    function verificaOperacao(){
+        let id = document.getElementsByName('id')[0].getAttribute('value')
+
+        if(id==""){
+            document.getElementsByName('formulario')[0].setAttribute('action','/admin/postagens/nova')
+        }else{
+            document.getElementsByName('formulario')[0].setAttribute('action','/admin/postagens/editar')
+        }
+    }
+</script>

@@ -14,8 +14,18 @@
     <p class="mb-1 font-weight-normal">{{descricao}}</p>
     <p class="mb-2 font-weight-light">{{conteudo}}</p>    
     <small>{{categoria.nome}} - ({{slug}})</small>
+    <div class="row">
+      <div class="col-sm">
+        <a href="/admin/postagens/editar/{{_id}}" class="text-decoration-none"><button class="btn btn-success mt-2 btn-block">editar</button></a>
+      </div>
+      <div class="col-sm">
+        <a href="/admin/postagens/excluir/{{_id}}" class="text-decoration-none"><button name="excluir" class="btn btn-danger mt-2 btn-block">excluir</button></a>
+      </div>
+    </div>
   </div>
+  
 </div>
+
 <br>
 {{else}}
 <h5>Não há postagens</h5>

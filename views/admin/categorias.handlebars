@@ -9,11 +9,17 @@
           <h5 class="mb-1">{{slug}}</h5>
         </div>
         <p class="mb-1">{{nome}}</p>
-        <a href="/admin/categorias/editar/{{_id}}"><button class="btn btn-success mt-2">editar</button></a>
-        <form method="POST" action="/admin/categorias/excluir">
-          <input type="hidden" name="id" value="{{_id}}">
-          <input type="submit" name="excluir" class="btn btn-danger mt-2" value="Excluir">
-        </form>
+        <div class="row">
+          <div class="col-sm">
+            <a href="/admin/categorias/editar/{{_id}}"><button class="btn btn-success mt-2 btn-block">editar</button></a>
+          </div>
+          <div class="col-sm">
+            <form method="POST" action="/admin/categorias/excluir">
+              <input type="hidden" name="id" value="{{_id}}">
+              <input type="submit" name="excluir" class="btn btn-danger mt-2 btn-block" value="Excluir">
+            </form>
+          </div>
+        </div>
     </div>  
   {{else}}
     <h4>Nenhuma categoria</h4>

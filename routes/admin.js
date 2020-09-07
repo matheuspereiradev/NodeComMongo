@@ -153,6 +153,55 @@ rotas.post('/postagens/nova',(req,res)=>{
     
 })
 
+rotas.get('/postagens/editar/:id',(req,res)=>{
+    modelPostagem.findById(req.params.id).then((post)=>{
+        modelCategoria.find().then((c)=>{
+            res.render('admin/addpostagem',{
+                postagem : post.toJSON(),
+                categorias:c.map(c => c.toJSON())
+            })
+        }).catch((e)=>{
+            req.flash('error_msg','Erro ao carregar categorias') 
+            res.redirect('/admin')
+        })
+        
+    }).catch((erro)=>{
+        req.flash('error_msg','Erro interno ao carregar a postagem')    
+        res.redirect('/admin/postagens')
+    })
+})
+
+rotas.post('/postagens/editar',(req,res)=>{
+    modelPostagem.findById(req.body.id).then((post)=>{
+        post.titulo=req.body.titulo
+        post.slug=req.body.slug
+        post.descricao=req.body.descricao
+        post.conteudo=req.body.conteudo
+        post.categoria=req.body.categoria
+
+        post.save().then(()=>{
+            req.flash('success_msg','Postagem editada com sucesso')    
+            res.redirect('/admin/postagens')
+        }).catch((e)=>{
+            req.flash('error_msg','Erro interno ao salvar ediçao da postagem')    
+            res.redirect('/admin/postagens')
+        })
+    }).catch((e)=>{
+        req.flash('error_msg','Erro ao salvar ediçao da postagem')    
+        res.redirect('/admin/postagens')
+    })
+})
+
+rotas.get('/postagens/excluir/:id',(req,res)=>{
+    modelPostagem.findById(req.params.id).remove().then(()=>{
+        req.flash('success_msg','Postagem excluida com sucesso')    
+        res.redirect('/admin/postagens')
+    }).catch((e)=>{
+        req.flash('error_msg','Erro ao excluir a postagem')    
+        res.redirect('/admin/postagens')
+    })
+})
+
 //=================FIM POSTS===============================
 
 module.exports=rotas
