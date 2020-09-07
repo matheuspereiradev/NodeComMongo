@@ -95,7 +95,7 @@ rotas.post('/categorias/excluir',(req,res)=>{
 //===============FIM CATEGORIAS=======================
 //===============INICIO POSTS=========================
 rotas.get('/postagens',(req,res)=>{
-    modelPostagem.find().then((posts)=>{
+    modelPostagem.find().populate('categoria').then((posts)=>{
         res.render('admin/postagem', {postagens:posts.map(posts => posts.toJSON())})
     }).catch((e)=>{
         req.flash('error_msg','Erro ao carregar postagens') 
@@ -126,7 +126,7 @@ rotas.post('/postagens/nova',(req,res)=>{
     }
 
     if(erros.length>0){
-        modelCategoria.find().populate('categoria').then((c)=>{
+        modelCategoria.find().then((c)=>{
             res.render('admin/addpostagem',{categorias:c.map(c => c.toJSON()),erros:erros})
             
         }).catch((e)=>{
