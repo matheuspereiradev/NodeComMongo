@@ -1,0 +1,24 @@
+<h1>LISTA DE POSTAGENS:</h1>
+<hr>
+<a href="/admin/postagens/cadastrar"><button class="btn btn-success">nova postagem</button></a>
+<br><br>
+
+{{#each postagens}}
+
+<div class="list-group">
+  <div class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 font-weight-bold">{{titulo}}</h5>
+      <small>{{data}}</small>
+    </div>
+    <p class="mb-1 font-weight-normal">{{descricao}}</p>
+    <p class="mb-2 font-weight-light">{{conteudo}}</p>
+
+    
+    <small>{{slug}}</small>
+  </div>
+</div>
+<br>
+{{else}}
+<h5>Não há postagens</h5>
+{{/each}}

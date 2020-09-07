@@ -4,6 +4,8 @@ const rotas = express.Router()
 const mongoose = require('mongoose')//importa mongoose
 require('../models/Categoria')//importa o model
 const modelCategoria = mongoose.model('categoria')//importa schema
+require('../models/Postagem')
+const modelPostagem = mongoose.model('postagem')
 
 rotas.get('/',(req,res)=>{
     res.render('admin/index')
@@ -91,8 +93,66 @@ rotas.post('/categorias/excluir',(req,res)=>{
 })
 
 //===============FIM CATEGORIAS=======================
-rotas.get('/posts',(req,res)=>{
-    res.send('pagina de posts')
+//===============INICIO POSTS=========================
+rotas.get('/postagens',(req,res)=>{
+    modelPostagem.find().then((posts)=>{
+        res.render('admin/postagem', {postagens:posts.map(posts => posts.toJSON())})
+    }).catch((e)=>{
+        req.flash('error_msg','Erro ao carregar postagens') 
+        res.redirect('/admin')
+    })
+    
 })
+
+rotas.get('/postagens/cadastrar', (req,res)=>{
+    modelCategoria.find().then((c)=>{
+        res.render('admin/addpostagem',{categorias:c.map(c => c.toJSON())})
+    }).catch((e)=>{
+        req.flash('error_msg','Erro ao carregar categorias') 
+        res.redirect('/admin')
+    })
+    
+})
+
+rotas.post('/postagens/nova',(req,res)=>{
+
+    let erros = []
+
+    if(!req.body.titulo||req.body.titulo==undefined||req.body.titulo==null){
+        erros.push({texto:"Digite o nome"})   
+    }
+    if(req.body.categoria==0){
+        erros.push({texto:"Selecione uma categoria"})
+    }
+
+    if(erros.length>0){
+        modelCategoria.find().populate('categoria').then((c)=>{
+            res.render('admin/addpostagem',{categorias:c.map(c => c.toJSON()),erros:erros})
+            
+        }).catch((e)=>{
+            req.flash('error_msg','Erro ao carregar categorias') 
+            res.redirect('/admin')
+        })
+    }else{
+        const postagemNova = {
+            titulo:req.body.titulo,
+            slug:req.body.slug,
+            descricao:req.body.descricao,
+            conteudo:req.body.conteudo,
+            categoria:req.body.categoria
+        }
+
+        new modelPostagem(postagemNova).save().then(()=>{
+            req.flash('success_msg','Postagem criada com sucesso')    
+            res.redirect('/admin/postagens')
+        }).catch((e)=>{
+            req.flash('error_msg','Erro interno ao cadastrar a postagem')    
+            res.redirect('/admin/postagens')
+        })
+    }
+    
+})
+
+//=================FIM POSTS===============================
 
 module.exports=rotas
