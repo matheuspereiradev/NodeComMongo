@@ -1,0 +1,20 @@
+{{#each erros}}
+    <div class="alert alert-danger" role="alert">
+        {{texto}}
+    </div>
+{{/each}}
+
+
+<div class="list-group">
+    <div class="list-group-item list-group-item-action flex-column align-items-start bg-info">
+        <h3>Faça login:</h3>
+        <form method="POST" name="formulario" action="">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" placeholder="digite o email" class="form-control">
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" class="form-control">
+        <br>
+        <input type="submit" id="enviar" name="enviar" value="entrar" class="btn btn-success btn-lg btn-block">
+    </div>
+</form>
+</div>

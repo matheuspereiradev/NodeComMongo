@@ -60,8 +60,10 @@ rotas.post('/salvarcadastro',(req,res)=>{
             res.render('usuario/cadastro') 
         })
     }
+})
 
-
+rotas.get('/login',(req,res)=>{
+    res.render('usuario/login') 
 })
 
 module.exports=rotas
