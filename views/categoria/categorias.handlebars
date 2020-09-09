@@ -1,0 +1,8 @@
+<h1>LISTA DE CATEGORIAS:</h1>
+<hr>
+<br><br>
+  {{#each categorias}}  
+    <a href="/postagem/categorias/{{slug}}">{{nome}}</a>  <br>    
+  {{else}}
+    <h4>Nenhuma categoria</h4>
+  {{/each}}

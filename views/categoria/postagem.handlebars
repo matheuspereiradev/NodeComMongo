@@ -1,14 +1,5 @@
-<div class="jumbotron">
-  <h1 class="display-4">Bem vindo ao postador</h1>
-  <p class="lead">Esse é um blog para você criar suas postagens e postar suas ideias</p>
-  <hr class="my-4">
-  <p>Faça parte da comunidade.</p>
-  <p class="lead">
-    <a class="btn btn-primary btn-lg" href="/usuarios/cadastrar" role="button">Cadastre-se</a>
-  </p>
-</div>
-<h1>Posts recentes:</h1>
-
+<h1>Postagens da categoria {{categoria.nome}}</h1>
+<hr><br>
 {{#each postagens}}
 
 <div class="list-group mt-2">
@@ -20,7 +11,6 @@
     <p class="mb-1 font-weight-normal">{{descricao}}</p>
     <a href="/postagem/ler/{{slug}}" class="text-decoration-none"><button class="btn btn-success">Ler mais</button></a>
     <hr>
-    <small>categoria:{{categoria.nome}}</small><br>
     <small>slug: {{slug}}</small>
   </div>
 </div>

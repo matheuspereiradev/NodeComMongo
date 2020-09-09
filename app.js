@@ -8,6 +8,7 @@ const aplicacao = express()
 const PORT = 3000
 const admin = require('./routes/admin')
 const post = require('./routes/postagem')
+const users = require('./routes/usuarios')
 const path = require('path')
 const session = require('express-session')
 const flash = require('connect-flash')
@@ -61,6 +62,7 @@ const Postagem = mongoose.model('postagem')
             
         })
     })
+    aplicacao.use('/usuarios',users)
     aplicacao.use('/postagem',post)
     aplicacao.use('/admin',admin)//todas as rotas desse grupo de rotas tem o seguinte prefixo
 
