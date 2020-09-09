@@ -8,6 +8,7 @@ require('../models/Postagem')
 const modelPostagem = mongoose.model('postagem')
 
 const{eAdmin} =require('../helpers/eAdmin')
+const{estaLogado} =require('../helpers/estaLogado')
 
 rotas.get('/',(req,res)=>{
     res.render('admin/index')
@@ -96,7 +97,7 @@ rotas.post('/categorias/excluir',eAdmin,(req,res)=>{
 
 //===============FIM CATEGORIAS=======================
 //===============INICIO POSTS=========================
-rotas.get('/postagens',eAdmin,(req,res)=>{
+rotas.get('/postagens',estaLogado,(req,res)=>{
     modelPostagem.find().populate('categoria').then((posts)=>{
         res.render('admin/postagem', {postagens:posts.map(posts => posts.toJSON())})
     }).catch((e)=>{
@@ -106,7 +107,7 @@ rotas.get('/postagens',eAdmin,(req,res)=>{
     
 })
 
-rotas.get('/postagens/cadastrar',eAdmin, (req,res)=>{
+rotas.get('/postagens/cadastrar',estaLogado, (req,res)=>{
     modelCategoria.find().then((c)=>{
         res.render('admin/addpostagem',{categorias:c.map(c => c.toJSON())})
     }).catch((e)=>{
@@ -116,7 +117,7 @@ rotas.get('/postagens/cadastrar',eAdmin, (req,res)=>{
     
 })
 
-rotas.post('/postagens/nova',eAdmin,(req,res)=>{
+rotas.post('/postagens/nova',estaLogado,(req,res)=>{
 
     let erros = []
 
@@ -155,7 +156,7 @@ rotas.post('/postagens/nova',eAdmin,(req,res)=>{
     
 })
 
-rotas.get('/postagens/editar/:id',eAdmin,(req,res)=>{
+rotas.get('/postagens/editar/:id',estaLogado,(req,res)=>{
     modelPostagem.findById(req.params.id).then((post)=>{
         modelCategoria.find().then((c)=>{
             res.render('admin/addpostagem',{
@@ -173,7 +174,7 @@ rotas.get('/postagens/editar/:id',eAdmin,(req,res)=>{
     })
 })
 
-rotas.post('/postagens/editar',eAdmin,(req,res)=>{
+rotas.post('/postagens/editar',estaLogado,(req,res)=>{
     modelPostagem.findById(req.body.id).then((post)=>{
         post.titulo=req.body.titulo
         post.slug=req.body.slug
@@ -194,7 +195,7 @@ rotas.post('/postagens/editar',eAdmin,(req,res)=>{
     })
 })
 
-rotas.get('/postagens/excluir/:id',eAdmin,(req,res)=>{
+rotas.get('/postagens/excluir/:id',estaLogado,(req,res)=>{
     modelPostagem.deleteOne(req.params.id).then(()=>{
         req.flash('success_msg','Postagem excluida com sucesso')    
         res.redirect('/admin/postagens')

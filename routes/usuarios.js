@@ -29,8 +29,7 @@ rotas.post('/salvarcadastro',(req,res)=>{
                 const novoUsuario = new modelUsr({
                     nome:req.body.nome,
                     email:req.body.email,
-                    senha:req.body.senha,
-                    admin:true
+                    senha:req.body.senha
                 })
 
                 bcrypt.genSalt(10,(erro,salt)=>{
@@ -75,6 +74,11 @@ rotas.post('/login',(req,res,next)=>{
         failureRedirect:'/usuarios/login',
         failureFlash:true
     })(req,res,next)
+})
+
+rotas.get('/logout',(req,res)=>{
+    req.logout()
+    res.redirect('/')
 })
 
 module.exports=rotas
