@@ -4,8 +4,10 @@ const rotas = express.Router()
 const bcrypt = require('bcryptjs')
 
 const mongoose = require('mongoose')//importa mongoose
+const passport = require('passport')
 require('../models/Usuario')//importa o model
 const modelUsr = mongoose.model('usuario')//importa schema
+
 
 rotas.get('/cadastrar', (req,res)=>{
     res.render('usuario/cadastro')
@@ -27,7 +29,8 @@ rotas.post('/salvarcadastro',(req,res)=>{
                 const novoUsuario = new modelUsr({
                     nome:req.body.nome,
                     email:req.body.email,
-                    senha:req.body.senha
+                    senha:req.body.senha,
+                    admin:true
                 })
 
                 bcrypt.genSalt(10,(erro,salt)=>{
@@ -64,6 +67,14 @@ rotas.post('/salvarcadastro',(req,res)=>{
 
 rotas.get('/login',(req,res)=>{
     res.render('usuario/login') 
+})
+
+rotas.post('/login',(req,res,next)=>{
+    passport.authenticate('local',{
+        successRedirect:'/',
+        failureRedirect:'/usuarios/login',
+        failureFlash:true
+    })(req,res,next)
 })
 
 module.exports=rotas

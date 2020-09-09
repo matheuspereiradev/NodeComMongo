@@ -14,7 +14,8 @@ const session = require('express-session')
 const flash = require('connect-flash')
 require('./models/Postagem')
 const Postagem = mongoose.model('postagem')
-
+const passport = require('passport')
+require('./config/auth')(passport)
 
 //configuraçoes
     //session
@@ -24,6 +25,9 @@ const Postagem = mongoose.model('postagem')
         saveUninitialized:true
     }))
 
+    aplicacao.use(passport.initialize())
+    aplicacao.use(passport.session())
+
     //flash
     aplicacao.use(flash())
 
@@ -31,6 +35,8 @@ const Postagem = mongoose.model('postagem')
     aplicacao.use((req,res,next)=>{
         res.locals.success_msg=req.flash("success_msg")
         res.locals.error_msg=req.flash("error_msg")
+        res.locals.error=req.flash("error")
+        res.locals.user = req.user||null
         next()//se nao passar ele trava
     })
 

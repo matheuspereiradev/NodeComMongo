@@ -7,11 +7,13 @@ const modelCategoria = mongoose.model('categoria')//importa schema
 require('../models/Postagem')
 const modelPostagem = mongoose.model('postagem')
 
+const{eAdmin} =require('../helpers/eAdmin')
+
 rotas.get('/',(req,res)=>{
     res.render('admin/index')
 })
 //================CATEGORIAS========================
-rotas.get('/categorias',(req,res)=>{
+rotas.get('/categorias',eAdmin,(req,res)=>{
     modelCategoria.find().then((cat)=>{
         res.render('admin/categorias',{categorias:cat.map(cat => cat.toJSON())})
     }).catch((e)=>{
@@ -21,11 +23,11 @@ rotas.get('/categorias',(req,res)=>{
     
 })
 
-rotas.get('/categorias/cadastrar',(req,res)=>{
+rotas.get('/categorias/cadastrar',eAdmin,(req,res)=>{
     res.render('admin/addcategoria')
 })
 
-rotas.post('/categorias/nova',(req,res)=>{
+rotas.post('/categorias/nova',eAdmin,(req,res)=>{
 
     let erros=[]
     if(!req.body.nome||req.body.nome==undefined||req.body.nome==null){
@@ -53,7 +55,7 @@ rotas.post('/categorias/nova',(req,res)=>{
     } 
 })
 
-rotas.get('/categorias/editar/:id',(req,res)=>{
+rotas.get('/categorias/editar/:id',eAdmin,(req,res)=>{
     modelCategoria.findOne({_id:req.params.id}).then((cat)=>{
         res.render('admin/addcategoria', {categoria:cat.toJSON()})
     }).catch((e)=>{
@@ -62,7 +64,7 @@ rotas.get('/categorias/editar/:id',(req,res)=>{
     })
 })
 
-rotas.post('/categorias/editar',(req,res)=>{
+rotas.post('/categorias/editar',eAdmin,(req,res)=>{
 
     modelCategoria.findOne({_id:req.body.id}).then((cat)=>{
         cat.nome=req.body.nome,
@@ -82,7 +84,7 @@ rotas.post('/categorias/editar',(req,res)=>{
     })
 })
 
-rotas.post('/categorias/excluir',(req,res)=>{
+rotas.post('/categorias/excluir',eAdmin,(req,res)=>{
     modelCategoria.deleteOne({_id:req.body.id}).then(()=>{
         req.flash('success_msg','Categoria excluida com sucesso')    
         res.redirect('/admin/categorias')
@@ -94,7 +96,7 @@ rotas.post('/categorias/excluir',(req,res)=>{
 
 //===============FIM CATEGORIAS=======================
 //===============INICIO POSTS=========================
-rotas.get('/postagens',(req,res)=>{
+rotas.get('/postagens',eAdmin,(req,res)=>{
     modelPostagem.find().populate('categoria').then((posts)=>{
         res.render('admin/postagem', {postagens:posts.map(posts => posts.toJSON())})
     }).catch((e)=>{
@@ -104,7 +106,7 @@ rotas.get('/postagens',(req,res)=>{
     
 })
 
-rotas.get('/postagens/cadastrar', (req,res)=>{
+rotas.get('/postagens/cadastrar',eAdmin, (req,res)=>{
     modelCategoria.find().then((c)=>{
         res.render('admin/addpostagem',{categorias:c.map(c => c.toJSON())})
     }).catch((e)=>{
@@ -114,7 +116,7 @@ rotas.get('/postagens/cadastrar', (req,res)=>{
     
 })
 
-rotas.post('/postagens/nova',(req,res)=>{
+rotas.post('/postagens/nova',eAdmin,(req,res)=>{
 
     let erros = []
 
@@ -153,7 +155,7 @@ rotas.post('/postagens/nova',(req,res)=>{
     
 })
 
-rotas.get('/postagens/editar/:id',(req,res)=>{
+rotas.get('/postagens/editar/:id',eAdmin,(req,res)=>{
     modelPostagem.findById(req.params.id).then((post)=>{
         modelCategoria.find().then((c)=>{
             res.render('admin/addpostagem',{
@@ -171,7 +173,7 @@ rotas.get('/postagens/editar/:id',(req,res)=>{
     })
 })
 
-rotas.post('/postagens/editar',(req,res)=>{
+rotas.post('/postagens/editar',eAdmin,(req,res)=>{
     modelPostagem.findById(req.body.id).then((post)=>{
         post.titulo=req.body.titulo
         post.slug=req.body.slug
@@ -192,7 +194,7 @@ rotas.post('/postagens/editar',(req,res)=>{
     })
 })
 
-rotas.get('/postagens/excluir/:id',(req,res)=>{
+rotas.get('/postagens/excluir/:id',eAdmin,(req,res)=>{
     modelPostagem.deleteOne(req.params.id).then(()=>{
         req.flash('success_msg','Postagem excluida com sucesso')    
         res.redirect('/admin/postagens')
